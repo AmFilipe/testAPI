@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frotcom API Login Example</title>
+</head>
+<body>
+    <h1>Login na API da Frotcom</h1>
+    <form id="loginForm">
+        <input type="provider" id="provider" placeholder="provider" required> <!-- Campo para o tipo -->
+        <input type="text" id="username" placeholder="Usuário" required>
+        <input type="password" id="password" placeholder="Senha" required>
+        <button type="submit">Login</button>
+    </form>
+    <h2>Dados da API</h2>
+    <div id="data"></div>
+
+    <script>
+        const loginUrl = 'https://v2api.frotcom.com/v2/authorize'; // URL para fazer login
+        const apiUrl = 'https://v2api.frotcom.com/v2/vehicles'; // URL para obter dados dos veículos
+        let token = '';
+
+        async function login(event) {
+            event.preventDefault(); // Evita envio tradicional do formulário
+
+            const provider = document.getElementById('provider').value; // Obtendo o valor do campo type
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+
+            try {
+                const response = await fetch(loginUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ provider, username, password}) // Incluindo o type no corpo da requisição
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                token = data.token; // Ajuste conforme a resposta da API
+
+                // Mostrar janela de confirmação de login bem-sucedido
+                alert('Login efetuado com sucesso!');
+
+                // Após login bem-sucedido, buscar dados da API
+                fetchData();
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                alert(`Erro ao fazer login: ${error.message}`);
+            }
+        }
+
+        async function fetchData() {
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                document.getElementById('data').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Erro ao buscar dados da API:', error);
+                alert(`Erro ao buscar dados da API: ${error.message}`);
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', login);
+    </script>
+</body>
+</html>
