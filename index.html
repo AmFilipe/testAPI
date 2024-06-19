@@ -17,6 +17,12 @@
             background-color: #f2f2f2;
             text-align: left;
         }
+         th.sorted-asc::after {
+            content: ' ▲';
+        }
+        th.sorted-desc::after {
+            content: ' ▼';
+        }
     </style>
 </head>
 <body>
@@ -138,6 +144,39 @@
             } else {
                 alert('Nenhum dado encontrado.');
             }
+        }
+
+        function sortTable(column) {
+            const table = document.getElementById('vehiclesTable');
+            const ths = table.querySelectorAll('th');
+            let direction = 'asc';
+            ths.forEach(th => {
+                if (th.textContent.toLowerCase() === column.toLowerCase()) {
+                    if (th.classList.contains('sorted-asc')) {
+                        direction = 'desc';
+                        th.classList.remove('sorted-asc');
+                        th.classList.add('sorted-desc');
+                    } else {
+                        th.classList.remove('sorted-desc');
+                        th.classList.add('sorted-asc');
+                    }
+                } else {
+                    th.classList.remove('sorted-asc');
+                    th.classList.remove('sorted-desc');
+                }
+            });
+
+            vehicleData.sort((a, b) => {
+                if (a[column] < b[column]) {
+                    return direction === 'asc' ? -1 : 1;
+                }
+                if (a[column] > b[column]) {
+                    return direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+
+            displayVehicles(vehicleData);
         }
 
         document.getElementById('loginForm').addEventListener('submit', login);
