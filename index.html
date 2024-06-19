@@ -20,10 +20,10 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nome</th>
+                    <th>Matricula</th>
                     <th>Marca</th>
                     <th>Modelo</th>
-                    <th>Ano</th>
+                    <th>typeName</th>
                 </tr>
             </thead>
             <tbody>
@@ -105,10 +105,12 @@
                 // Ajuste conforme a estrutura dos dados dos veículos retornados pela API
                 row.innerHTML = `
                     <td>${vehicle.id}</td>
-                    <td>${vehicle.name}</td>
-                    <td>${vehicle.make}</td>
+                    <td>${vehicle.licensePlate}</td>
+                    <td>${vehicle.manufacturer}</td>
                     <td>${vehicle.model}</td>
-                    <td>${vehicle.year}</td>
+                    <td>${vehicle.modelYear}</td>
+                    <td>${vehicle.hasCanbus}</td>
+                    <td>${vehicle.driverName}</td>
                 `;
 
                 tbody.appendChild(row);
