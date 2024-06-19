@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frotcom API Login Example</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
     <h1>Login na API da Frotcom</h1>
@@ -18,17 +32,12 @@
     <div id="data">
         <table id="vehiclesTable" style="display: none;">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Matricula</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>TypeName</th>
-                    <th>Tem CANBus</th>
-                    <th>Condutor</th>
+                <tr id="tableHeader">
+                    <!-- Cabeçalhos dinâmicos serão inseridos aqui -->
                 </tr>
             </thead>
             <tbody>
+                <!-- Dados dinâmicos serão inseridos aqui -->
             </tbody>
         </table>
     </div>
@@ -96,28 +105,39 @@
             }
         }
 
-        function displayVehicles(data) {
+         function displayVehicles(data) {
             const table = document.getElementById('vehiclesTable');
+            const thead = table.querySelector('thead');
             const tbody = table.querySelector('tbody');
             tbody.innerHTML = ''; // Limpar quaisquer dados anteriores
+            thead.innerHTML = ''; // Limpar cabeçalhos anteriores
 
-            data.forEach(vehicle => {
-                const row = document.createElement('tr');
+            if (data.length > 0) {
+                // Gerar cabeçalhos dinamicamente
+                const headers = Object.keys(data[0]);
+                const headerRow = document.createElement('tr');
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
 
-                // Ajuste conforme a estrutura dos dados dos veículos retornados pela API
-                row.innerHTML = `
-                    <td>${vehicle.id}</td>
-                    <td>${vehicle.licensePlate}</td>
-                    <td>${vehicle.manufacturer}</td>
-                    <td>${vehicle.model}</td>
-                    <td>${vehicle.hasCanbus}</td>
-                    <td>${vehicle.driverName}</td>
-                `;
+                // Gerar linhas da tabela
+                data.forEach(vehicle => {
+                    const row = document.createElement('tr');
+                    headers.forEach(header => {
+                        const td = document.createElement('td');
+                        td.textContent = vehicle[header];
+                        row.appendChild(td);
+                    });
+                    tbody.appendChild(row);
+                });
 
-                tbody.appendChild(row);
-            });
-
-            table.style.display = 'table'; // Exibir a tabela
+                table.style.display = 'table'; // Exibir a tabela
+            } else {
+                alert('Nenhum dado encontrado.');
+            }
         }
 
         document.getElementById('loginForm').addEventListener('submit', login);
