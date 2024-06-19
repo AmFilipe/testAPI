@@ -15,7 +15,21 @@
     </form>
     <h2>Dados da API</h2>
     <button id="getVehicles" style="display: none;">Obter Veículos</button>
-    <div id="data"></div>
+    <div id="data">
+        <table id="vehiclesTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Ano</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
     <script>
         const loginUrl = 'https://v2api.frotcom.com/v2/authorize'; // URL para fazer login
@@ -73,11 +87,34 @@
                 }
 
                 const data = await response.json();
-                document.getElementById('data').textContent = JSON.stringify(data, null, 2);
+                displayVehicles(data);
             } catch (error) {
                 console.error('Erro ao buscar dados da API:', error);
                 alert(`Erro ao buscar dados da API: ${error.message}`);
             }
+        }
+
+        function displayVehicles(data) {
+            const table = document.getElementById('vehiclesTable');
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = ''; // Limpar quaisquer dados anteriores
+
+            data.forEach(vehicle => {
+                const row = document.createElement('tr');
+
+                // Ajuste conforme a estrutura dos dados dos veículos retornados pela API
+                row.innerHTML = `
+                    <td>${vehicle.id}</td>
+                    <td>${vehicle.name}</td>
+                    <td>${vehicle.make}</td>
+                    <td>${vehicle.model}</td>
+                    <td>${vehicle.year}</td>
+                `;
+
+                tbody.appendChild(row);
+            });
+
+            table.style.display = 'table'; // Exibir a tabela
         }
 
         document.getElementById('loginForm').addEventListener('submit', login);
