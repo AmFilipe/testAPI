@@ -14,11 +14,11 @@
         <button type="submit">Login</button>
     </form>
     <h2>Dados da API</h2>
+    <button id="getVehicles" style="display: none;">Obter Veículos</button>
     <div id="data"></div>
 
     <script>
         const loginUrl = 'https://v2api.frotcom.com/v2/authorize'; // URL para fazer login
-        const apiUrl = 'https://v2api.frotcom.com/v2/vehicles'; // URL para obter dados dos veículos
         let token = '';
 
         async function login(event) {
@@ -49,14 +49,16 @@
                 alert('Login efetuado com sucesso!');
 
                 // Após login bem-sucedido, buscar dados da API
-                fetchData();
+                document.getElementById('getVehicles').style.display = 'block';
             } catch (error) {
                 console.error('Erro ao fazer login:', error);
                 alert(`Erro ao fazer login: ${error.message}`);
             }
         }
 
-        async function fetchData() {
+        async function fetchVehicles() {
+            const apiUrl = `https://v2api.frotcom.com/v2/vehicles?api_key=${token}`; // URL para obter dados dos veículos
+
             try {
                 const response = await fetch(apiUrl, {
                     method: 'GET',
@@ -79,6 +81,7 @@
         }
 
         document.getElementById('loginForm').addEventListener('submit', login);
+        document.getElementById('getVehicles').addEventListener('click', fetchVehicles);
     </script>
 </body>
 </html>
