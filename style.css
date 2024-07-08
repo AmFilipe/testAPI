@@ -1,0 +1,182 @@
+/* Menu */
+.line a {
+    padding: 10px;
+    color: #f7f7f7; 
+    font-weight: 700;
+    -webkit-transition: color 0.3s, background-color 0.3s;
+    -moz-transition: color 0.3s, background-color 0.3s;
+    transition: color 0.3s, background-color 0.3s;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Sombra de texto mais forte */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto translúcido */
+    border: 1px solid rgba(255, 255, 255, 0.7); /* Borda branca translúcida */
+    border-radius: 5px; /* Bordas arredondadas */
+    display: inline-block; /* Exibe os links em linha */
+}
+
+    .line a::before,
+    .line a::after {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    -moz-transition: opacity 0.3s, -moz-transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    transform: translateY(-10px);
+    }
+    
+    .line a::before {
+    top: 0;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    transform: translateY(-10px);
+    }
+    
+    .line a::after {
+    bottom: 0;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    transform: translateY(10px);
+    }
+    
+    .line a:hover,
+    .line a:focus {
+    color: #fff;
+    }
+    
+    .line a:hover::before,
+    .line a:focus::before,
+    .line a:hover::after,
+    .line a:focus::after {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    transform: translateY(0px);
+    }
+    
+    /* container */
+    .content-with-sidebars {
+        display:flex;
+        flex-wrap:wrap;
+    }
+    
+    /* columns */
+    .content-with-sidebars > * {
+        text-align: center;
+        width:90%;
+        padding:1rem;
+    }
+    
+    /* tablet breakpoint */
+    @media (min-width:768px) {
+        .content-with-sidebars > * {
+            width:50%;
+        }
+        .content-with-sidebars > *:nth-child(1) {
+            width:100%;
+        }
+    }
+    
+    /* desktop breakpoint */
+    @media (min-width:1024px) {
+        .content-with-sidebars > * {
+            width:30%;
+        }
+        .content-with-sidebars > *:nth-child(1) {
+            width:30%;
+        }
+        .content-with-sidebars > *:nth-child(2) {
+            order:-1;
+        }
+    }
+header {
+    background-attachment: scroll;
+    background-image: url('../galeria/header.jpg');
+    background-size: cover; /* Make sure the background covers the whole header */
+    background-position: center; /* Center the background image */
+    text-align: center;
+    padding: 20px 0; /* Add some padding for better spacing */
+}
+
+nav.menu {
+    top: 0;
+    width: 100%;
+    float: center;
+    text-align: center;
+}
+
+
+/* Estilos do cabeçalho */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+
+nav ul li:hover, nav ul li:focus {
+    color: #000;
+    transition: 0.6s;
+    outline: none;
+}
+
+nav ul li:hover {
+    color: #ddd;
+}
+
+/* Estilos principais */
+main {
+        flex: 1;
+    padding-top: 140px; /* Espaço para o cabeçalho fixo */
+    padding: 50px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Estilos da lista de definição */
+dl {
+    margin: 20px 0;
+}
+
+dt {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+dd {
+    margin: 0 0 10px 20px;
+}
+
+/* Estilos da lista ordenada */
+ol {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
