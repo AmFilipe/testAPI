@@ -1,0 +1,96 @@
+/* Menu */
+.line a {
+    padding: 10px;
+    color: #f7f7f7; 
+    font-weight: 700;
+    -webkit-transition: color 0.3s, background-color 0.3s;
+    -moz-transition: color 0.3s, background-color 0.3s;
+    transition: color 0.3s, background-color 0.3s;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Sombra de texto mais forte */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto translúcido */
+    border: 1px solid rgba(255, 255, 255, 0.7); /* Borda branca translúcida */
+    border-radius: 5px; /* Bordas arredondadas */
+    display: inline-block; /* Exibe os links em linha */
+}
+
+    .line a::before,
+    .line a::after {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    -moz-transition: opacity 0.3s, -moz-transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    transform: translateY(-10px);
+    }
+    
+    .line a::before {
+    top: 0;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    transform: translateY(-10px);
+    }
+    
+    .line a::after {
+    bottom: 0;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    transform: translateY(10px);
+    }
+    
+    .line a:hover,
+    .line a:focus {
+    color: #fff;
+    }
+    
+    .line a:hover::before,
+    .line a:focus::before,
+    .line a:hover::after,
+    .line a:focus::after {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    transform: translateY(0px);
+    }
+    
+    /* container */
+    .content-with-sidebars {
+        display:flex;
+        flex-wrap:wrap;
+    }
+    
+    /* columns */
+    .content-with-sidebars > * {
+        text-align: center;
+        width:90%;
+        padding:1rem;
+    }
+    
+    /* tablet breakpoint */
+    @media (min-width:768px) {
+        .content-with-sidebars > * {
+            width:50%;
+        }
+        .content-with-sidebars > *:nth-child(1) {
+            width:100%;
+        }
+    }
+    
+    /* desktop breakpoint */
+    @media (min-width:1024px) {
+        .content-with-sidebars > * {
+            width:30%;
+        }
+        .content-with-sidebars > *:nth-child(1) {
+            width:30%;
+        }
+        .content-with-sidebars > *:nth-child(2) {
+            order:-1;
+        }
+    }
