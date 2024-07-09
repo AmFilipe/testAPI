@@ -8,7 +8,6 @@
     transition: color 0.3s, background-color 0.3s;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Sombra de texto mais forte */
     background-color: rgba(0, 0, 0, 0.5); /* Fundo preto translúcido */
-    border: 1px solid rgba(255, 255, 255, 0.7); /* Borda branca translúcida */
     border-radius: 5px; /* Bordas arredondadas */
     display: inline-block; /* Exibe os links em linha */
 }
@@ -59,20 +58,7 @@
     transform: translateY(0px);
     }
     
-    /* container */
-    .content-with-sidebars {
-        display:flex;
-        flex-wrap:wrap;
-    }
-    
-    /* columns */
-    .content-with-sidebars > * {
-        text-align: center;
-        width:90%;
-        padding:1rem;
-    }
-    
-  
+      
 header {
     background-color: red;
     height: 80px;
