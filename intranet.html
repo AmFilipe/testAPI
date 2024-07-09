@@ -40,7 +40,7 @@
     </header>
     <h1>Login na API da Frotcom</h1>
     <form id="loginForm">
-        <input type="provider" id="provider" placeholder="provider" required> <!-- Campo para o tipo -->
+        <input type="text" id="provider" placeholder="Provider" required>
         <input type="text" id="username" placeholder="Usuário" required>
         <input type="password" id="password" placeholder="Senha" required>
         <button type="submit">Login</button>
@@ -61,7 +61,7 @@
     </div>
 
     <script>
-        const loginUrl = 'https://v2api.frotcom.com/v2/authorize'; // URL para fazer login
+        const loginUrl = 'https://intranetapi.frotcom.com/api/authorize'; // URL para fazer login
         let token = '';
 
         async function login(event) {
@@ -100,7 +100,7 @@
         }
 
         async function fetchVehicles() {
-            const apiUrl = `https://v2api.frotcom.com/v2/vehicles?api_key=${token}`; // URL para obter dados dos veículos
+            const apiUrl = `https://intranetapi.frotcom.com/api/accounts?api_key=${token}`; // URL para obter dados dos veículos
 
             try {
                 const response = await fetch(apiUrl, {
