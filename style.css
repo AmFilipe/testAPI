@@ -120,6 +120,22 @@ main {
         
 }
 
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Garante que o conteúdo fique no topo */
+    text-align: center;
+    font-size: 2em;
+    padding: 50px;
+    height: 100vh; /* Usa a altura total da viewport */
+    background-color: lightgrey;
+    background-image: url('FROTCOM-Logo-RGB-White.png');
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    background-position: center; /* Centraliza a imagem no centro do contêiner */
+    background-size: 50%; /* Ajusta o tamanho da imagem para 50% do contêiner */
+        
+}
 
 
 /* Estilos da lista de definição */
