@@ -75,6 +75,7 @@
   
 header {
     background-color: red;
+    height: 70px; 
     text-align: center;
     padding: 20px 0; /* Add some padding for better spacing */
 }
