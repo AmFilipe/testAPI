@@ -18,7 +18,7 @@
             background-color: #f2f2f2;
             text-align: left;
         }
-         th.sorted-asc::after {
+        th.sorted-asc::after {
             content: ' ▲';
         }
         th.sorted-desc::after {
@@ -28,15 +28,12 @@
 </head>
 <body>
     <header>
-                
         <nav class="menu line">
             <ul>
                 <li><a href="index.html" title="Inicio">Inicio</a></li>
                 <li><a href="clientes.html" title="API Clientes">API Clientes</a></li>
-                              
             </ul>
         </nav>
-    
     </header>
     <h1>Login na API da Frotcom</h1>
     <form id="loginForm">
@@ -67,10 +64,9 @@
         async function login(event) {
             event.preventDefault(); // Evita envio tradicional do formulário
 
-            const provider = document.getElementById('provider').value; // Obtendo o valor do campo type
+            const provider = document.getElementById('provider').value; // Obtendo o valor do campo provider
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            
 
             try {
                 const response = await fetch(loginUrl, {
@@ -78,8 +74,12 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ provider, username, password}) // Incluindo o type no corpo da requisição
+                    body: JSON.stringify({ username, password, provider }) // Incluindo o provider no corpo da requisição
                 });
+
+                if (response.status === 401) {
+                    throw new Error('Unauthorized: Verifique suas credenciais.');
+                }
 
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
@@ -123,7 +123,7 @@
             }
         }
 
-         function displayVehicles(data) {
+        function displayVehicles(data) {
             const table = document.getElementById('vehiclesTable');
             const thead = table.querySelector('thead');
             const tbody = table.querySelector('tbody');
@@ -137,6 +137,7 @@
                 headers.forEach(header => {
                     const th = document.createElement('th');
                     th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
+                    th.addEventListener('click', () => sortTable(header));
                     headerRow.appendChild(th);
                 });
                 thead.appendChild(headerRow);
