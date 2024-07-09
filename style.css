@@ -104,12 +104,18 @@ nav ul li:hover {
 
 /* Estilos principais */
 main {
-        text-align: center;
-        padding: 50px;
-        height: 100%;
-        background-color: lightgrey;
-        background-image: url('FROTCOM-Logo-RGB-White.png');
-      
+        display: flex;
+        justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+    height: 100vh; /* Usa a altura total da viewport */
+    background-color: lightgrey;
+    background-image: url('FROTCOM-Logo-RGB-White.png');
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    background-position: center; /* Centraliza a imagem no centro do contêiner */
+    background-size: contain; /* Ajusta o tamanho da imagem para caber no contêiner */
+        
 }
 
 
