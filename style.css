@@ -72,41 +72,9 @@
         padding:1rem;
     }
     
-    /* tablet breakpoint */
-    @media (min-width:768px) {
-        .content-with-sidebars > * {
-            width:50%;
-        }
-        .content-with-sidebars > *:nth-child(1) {
-            width:100%;
-        }
-    }
-    
-    /* desktop breakpoint */
-    @media (min-width:1024px) {
-        .content-with-sidebars > * {
-            width:30%;
-        }
-        .content-with-sidebars > *:nth-child(1) {
-            width:30%;
-        }
-        .content-with-sidebars > *:nth-child(2) {
-            order:-1;
-        }
-    }
+  
 header {
-    display: block;
-    width: 166px;
-    height: 30px;
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
-    border: 1px solid #111;
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
-    -moz-box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
-    background: rgb(50,50,50);
+    
     text-align: center;
     padding: 20px 0; /* Add some padding for better spacing */
 }
