@@ -60,7 +60,6 @@
     
       
 header {
-    background-image: url('FROTCOM-Logo-RGB-White.png');
     background-color: red;
     height: 80px;
     text-align: center;
@@ -105,13 +104,11 @@ nav ul li:hover {
 
 /* Estilos principais */
 main {
-        padding-top: 140px; /* Espaço para o cabeçalho fixo */
+
         padding: 50px;
-        width: 100%;
         height: 100%;
-        margin: 0 auto;
         background-color: lightgrey;
-        /* background-image: url('FROTCOM-Logo-RGB-White.png'); */
+        background-image: url('FROTCOM-Logo-RGB-White.png');
       
 }
 
