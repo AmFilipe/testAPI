@@ -75,7 +75,8 @@
   
 header {
     background-color: red;
-    height: 70px; 
+    height: 80px;
+    background-image: ; 
     text-align: center;
     padding: 20px 0; /* Add some padding for better spacing */
 }
@@ -87,6 +88,10 @@ nav.menu {
     text-align: center;
 }
 
+body {
+    background-color: lightblue;
+    height: 200px;
+}
 
 /* Estilos do cabeçalho */
 nav ul {
