@@ -106,14 +106,12 @@ nav ul li:hover {
 
 /* Estilos principais */
 main {
-        flex: 1;
         padding-top: 140px; /* Espaço para o cabeçalho fixo */
         padding: 50px;
         width: 100%;
-        max-width: 900px;
         margin: 0 auto;
-        background-color: lightblue;
-       
+        background-color: lightgrey;
+      
 }
 
 
