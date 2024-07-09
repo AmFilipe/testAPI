@@ -109,6 +109,7 @@ main {
     align-items: center;
     justify-content: flex-start; /* Garante que o conteúdo fique no topo */
     text-align: center;
+    font-size: 14;
     padding: 50px;
     height: 100vh; /* Usa a altura total da viewport */
     background-color: lightgrey;
