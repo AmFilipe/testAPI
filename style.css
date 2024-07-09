@@ -2,7 +2,7 @@
 .line a {
     padding: 20px;
     color: #f7f7f7; 
-    font-weight: 700;
+    font-weight: 900;
     -webkit-transition: color 0.3s, background-color 0.3s;
     -moz-transition: color 0.3s, background-color 0.3s;
     transition: color 0.3s, background-color 0.3s;
