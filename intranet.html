@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frotcom API Login Example</title>
+    <link rel=stylesheet href="style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+         th.sorted-asc::after {
+            content: ' ▲';
+        }
+        th.sorted-desc::after {
+            content: ' ▼';
+        }
+    </style>
+</head>
+<body>
+    <header>
+                
+        <nav class="menu line">
+            <ul>
+                <li><a href="index.html" title="Inicio">Inicio</a></li>
+                <li><a href="intranet.html" title="Intranet API">INTRANET API</a></li>
+                              
+            </ul>
+        </nav>
+    
+    </header>
+    <h1>Login na API da Frotcom</h1>
+    <form id="loginForm">
+        <input type="provider" id="provider" placeholder="provider" required> <!-- Campo para o tipo -->
+        <input type="text" id="username" placeholder="Usuário" required>
+        <input type="password" id="password" placeholder="Senha" required>
+        <button type="submit">Login</button>
+    </form>
+    <h2>Dados da API</h2>
+    <button id="getVehicles" style="display: none;">Obter Veículos</button>
+    <div id="data">
+        <table id="vehiclesTable" style="display: none;">
+            <thead>
+                <tr id="tableHeader">
+                    <!-- Cabeçalhos dinâmicos serão inseridos aqui -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dados dinâmicos serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const loginUrl = 'https://v2api.frotcom.com/v2/authorize'; // URL para fazer login
+        let token = '';
+
+        async function login(event) {
+            event.preventDefault(); // Evita envio tradicional do formulário
+
+            const provider = document.getElementById('provider').value; // Obtendo o valor do campo type
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+
+            try {
+                const response = await fetch(loginUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ provider, username, password}) // Incluindo o type no corpo da requisição
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                token = data.token; // Ajuste conforme a resposta da API
+
+                // Mostrar janela de confirmação de login bem-sucedido
+                alert('Login efetuado com sucesso!');
+
+                // Após login bem-sucedido, buscar dados da API
+                document.getElementById('getVehicles').style.display = 'block';
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                alert(`Erro ao fazer login: ${error.message}`);
+            }
+        }
+
+        async function fetchVehicles() {
+            const apiUrl = `https://v2api.frotcom.com/v2/vehicles?api_key=${token}`; // URL para obter dados dos veículos
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                displayVehicles(data);
+            } catch (error) {
+                console.error('Erro ao buscar dados da API:', error);
+                alert(`Erro ao buscar dados da API: ${error.message}`);
+            }
+        }
+
+         function displayVehicles(data) {
+            const table = document.getElementById('vehiclesTable');
+            const thead = table.querySelector('thead');
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = ''; // Limpar quaisquer dados anteriores
+            thead.innerHTML = ''; // Limpar cabeçalhos anteriores
+
+            if (data.length > 0) {
+                // Gerar cabeçalhos dinamicamente
+                const headers = Object.keys(data[0]);
+                const headerRow = document.createElement('tr');
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+
+                // Gerar linhas da tabela
+                data.forEach(vehicle => {
+                    const row = document.createElement('tr');
+                    headers.forEach(header => {
+                        const td = document.createElement('td');
+                        td.textContent = vehicle[header];
+                        row.appendChild(td);
+                    });
+                    tbody.appendChild(row);
+                });
+
+                table.style.display = 'table'; // Exibir a tabela
+            } else {
+                alert('Nenhum dado encontrado.');
+            }
+        }
+
+        function sortTable(column) {
+            const table = document.getElementById('vehiclesTable');
+            const ths = table.querySelectorAll('th');
+            let direction = 'asc';
+            ths.forEach(th => {
+                if (th.textContent.toLowerCase() === column.toLowerCase()) {
+                    if (th.classList.contains('sorted-asc')) {
+                        direction = 'desc';
+                        th.classList.remove('sorted-asc');
+                        th.classList.add('sorted-desc');
+                    } else {
+                        th.classList.remove('sorted-desc');
+                        th.classList.add('sorted-asc');
+                    }
+                } else {
+                    th.classList.remove('sorted-asc');
+                    th.classList.remove('sorted-desc');
+                }
+            });
+
+            vehicleData.sort((a, b) => {
+                if (a[column] < b[column]) {
+                    return direction === 'asc' ? -1 : 1;
+                }
+                if (a[column] > b[column]) {
+                    return direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+
+            displayVehicles(vehicleData);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', login);
+        document.getElementById('getVehicles').addEventListener('click', fetchVehicles);
+    </script>
+</body>
+</html>
