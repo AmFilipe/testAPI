@@ -108,8 +108,9 @@ main {
         justify-content: center;
     align-items: center;
     text-align: center;
+    text-size: 12;
     padding: 50px;
-    height: 100%; /* Usa a altura total da viewport */
+    height: 90vh; /* Usa a altura total da viewport */
     background-color: lightgrey;
     background-image: url('FROTCOM-Logo-RGB-White.png');
     background-repeat: no-repeat; /* Impede a repetição da imagem */
