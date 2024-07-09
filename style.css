@@ -115,7 +115,7 @@ main {
     background-image: url('FROTCOM-Logo-RGB-White.png');
     background-repeat: no-repeat; /* Impede a repetição da imagem */
     background-position: center; /* Centraliza a imagem no centro do contêiner */
-    background-size: 300px 200px; /* Ajusta a largura para 300px e a altura para 200px */
+   background-size: contain; /* Ajusta o tamanho da imagem para caber no contêiner */
         
 }
 
