@@ -1,14 +1,13 @@
 /* Menu */
 .line a {
-    padding: 10px;
+    padding: 20px;
     color: #f7f7f7; 
-    font-weight: 700;
+    font-weight: 900;
     -webkit-transition: color 0.3s, background-color 0.3s;
     -moz-transition: color 0.3s, background-color 0.3s;
     transition: color 0.3s, background-color 0.3s;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Sombra de texto mais forte */
     background-color: rgba(0, 0, 0, 0.5); /* Fundo preto translúcido */
-    border: 1px solid rgba(255, 255, 255, 0.7); /* Borda branca translúcida */
     border-radius: 5px; /* Bordas arredondadas */
     display: inline-block; /* Exibe os links em linha */
 }
@@ -59,46 +58,10 @@
     transform: translateY(0px);
     }
     
-    /* container */
-    .content-with-sidebars {
-        display:flex;
-        flex-wrap:wrap;
-    }
-    
-    /* columns */
-    .content-with-sidebars > * {
-        text-align: center;
-        width:90%;
-        padding:1rem;
-    }
-    
-    /* tablet breakpoint */
-    @media (min-width:768px) {
-        .content-with-sidebars > * {
-            width:50%;
-        }
-        .content-with-sidebars > *:nth-child(1) {
-            width:100%;
-        }
-    }
-    
-    /* desktop breakpoint */
-    @media (min-width:1024px) {
-        .content-with-sidebars > * {
-            width:30%;
-        }
-        .content-with-sidebars > *:nth-child(1) {
-            width:30%;
-        }
-        .content-with-sidebars > *:nth-child(2) {
-            order:-1;
-        }
-    }
+      
 header {
-    background-attachment: scroll;
-    background-image: url('../galeria/header.jpg');
-    background-size: cover; /* Make sure the background covers the whole header */
-    background-position: center; /* Center the background image */
+    background-color: red;
+    height: 80px;
     text-align: center;
     padding: 20px 0; /* Add some padding for better spacing */
 }
@@ -109,24 +72,8 @@ nav.menu {
     float: center;
     text-align: center;
 }
-/* Estilos gerais */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Permite que a página se expanda conforme o conteúdo cresce */
-    overflow-y: auto; /* Permite rolagem vertical */
-}
 
-h1 {
-    color: #fff;
-    margin: 0;
-}
+
 
 /* Estilos do cabeçalho */
 nav ul {
@@ -157,47 +104,24 @@ nav ul li:hover {
 
 /* Estilos principais */
 main {
-        flex: 1;
-    padding-top: 140px; /* Espaço para o cabeçalho fixo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Garante que o conteúdo fique no topo */
+    text-align: center;
+    font-size: 2em;
     padding: 50px;
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 100vh; /* Usa a altura total da viewport */
+    background-color: lightgrey;
+    background-image: url('FROTCOM-Logo-RGB-White.png');
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    background-position: center; /* Centraliza a imagem no centro do contêiner */
+    background-size: 300px 200px; /* Ajusta a largura para 300px e a altura para 200px */
+        
 }
 
-h2 {
-    text-align: center;
-    margin-top: 0;
-}
 
-section {
-    margin-bottom: 40px;
-}
 
-h4, h5 {
-    margin-top: 20px;
-}
-
-p {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12;
-    margin-bottom: 20px;
-}
-
-figure {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-figure img {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-}
 
 /* Estilos da lista de definição */
 dl {
@@ -226,37 +150,4 @@ a {
 
 a:hover {
     text-decoration: underline;
-}
-
-/* Estilos do rodapé */
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #4CAF50;
-    color: white;
-    margin-top: auto;
-}
-
-footer h4 {
-    margin-top: 0;
-}
-
-footer a {
-    margin: 0 10px;
-    color: white;
-}
-
-footer img {
-    vertical-align: middle;
-}
-
-footer p {
-    margin: 10px 0 0 0;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background: #ddd;
-    margin: 40px 0;
 }
