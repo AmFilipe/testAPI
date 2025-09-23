@@ -86,3 +86,25 @@ button:disabled {
   padding: 8px;
   border: 1px solid #ccc;
 }
+
+/* Estilo para a barra do cabeçalho */
+.top-bar {
+  background-color: #2c3e50; /* Cor de fundo da barra */
+  color: white; /* Cor do texto dentro da barra */
+  padding: 20px; /* Espaçamento interno */
+  display: flex; /* Permite alinhar o conteúdo */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+}
+
+/* Estilo para o logo (agora uma imagem) */
+.top-bar .logo {
+  height: 50px; /* Defina a altura desejada para o seu logo */
+  width: auto; /* Mantém a proporção da imagem */
+}
+
+/* Opcional: ajustar o cabeçalho principal */
+header h1 {
+  margin-top: 20px;
+  text-align: center;
+}
