@@ -1,183 +1,233 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frotcom API Login Example</title>
-    <link rel=stylesheet href="styles.css">
-     <link rel=stylesheet href="table.css">
-    
+    <title>API's Frotcom - Testes Internos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="table.css">
 </head>
 <body>
     <header>
-                
+        <img src="FROTCOM-Logo-RGB-White.png" alt="Logo Frotcom" class="frotcom-logo">
         <nav class="menu line">
             <ul>
-                <li><a href="index.html" title="Inicio">Inicio</a></li>
+                <li><a href="index.html" title="Inicio">Início</a></li>
                 <li><a href="intranet.html" title="Intranet API">INTRANET API</a></li>
-                              
             </ul>
         </nav>
-    
     </header>
     <main>
-    <h1>Login na API da Frotcom</h1>
-    <form id="loginForm">
-        <input type="provider" id="provider" placeholder="provider" required> <!-- Campo para o tipo -->
-        <input type="text" id="username" placeholder="Usuário" required>
-        <input type="password" id="password" placeholder="Senha" required>
-        <button type="submit">Login</button>
-    </form>
+        <h1>Login na API da Frotcom</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Utilizador" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="message" style="color: red;"></p>
     </main>
     <section>
-    <h2>Dados da API</h2>
-    <button id="getVehicles" style="display: none;">Obter Veículos</button>
-    <div id="data">
-        <table id="vehiclesTable" style="display: none;">
-            <thead>
-                <tr id="tableHeader">
-                    <!-- Cabeçalhos dinâmicos serão inseridos aqui -->
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dados dinâmicos serão inseridos aqui -->
-            </tbody>
-        </table>
-    </div>
+        <h2>Dados da API</h2>
+        <div class="column-selector" style="display: none;">
+            <p>Selecione as colunas que deseja exibir:</p>
+            <div id="columnCheckboxes">
+                </div>
+            <button id="showDataButton" style="display: none;">Mostrar Dados</button>
+        </div>
+        
+        <button id="getVehicles">Obter Veículos</button>
+        
+        <div id="data">
+            <div class="table-container">
+                <table id="vehiclesTable" class="data-table" style="display: none;">
+                    <thead>
+                        <tr id="tableHeader">
+                            </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </div>
     </section>
+
     <script>
-        const loginUrl = 'https://v2api.frotcom.com/v2/authorize'; // URL para fazer login
-        let token = '';
+        const loginUrl = 'https://v2api.frotcom.com/v2/authorize';
+        const vehiclesUrl = 'https://v2api.frotcom.com/v2/vehicles';
 
-        async function login(event) {
-            event.preventDefault(); // Evita envio tradicional do formulário
+        let originalVehicleData = [];
+        let selectedColumns = [];
+        let currentSortColumn = '';
+        let isAscending = true;
 
-            const provider = document.getElementById('provider').value; // Obtendo o valor do campo type
+        // Lógica para o formulário de login
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            
+            const messageElement = document.getElementById('message');
 
             try {
                 const response = await fetch(loginUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ provider, username, password}) // Incluindo o type no corpo da requisição
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ provider: 'frotcom', username, password })
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
-                }
-
                 const data = await response.json();
-                token = data.token; // Ajuste conforme a resposta da API
-
-                // Mostrar janela de confirmação de login bem-sucedido
-                alert('Login efetuado com sucesso!');
-
-                // Após login bem-sucedido, buscar dados da API
-                document.getElementById('getVehicles').style.display = 'block';
+                
+                if (response.ok) {
+                    const apiKey = data.token;
+                    if (apiKey) {
+                        localStorage.setItem('frotcom_api_key', apiKey);
+                        messageElement.textContent = 'Login efetuado com sucesso!';
+                        messageElement.style.color = 'green';
+                        document.getElementById('loginForm').style.display = 'none';
+                        document.getElementById('getVehicles').style.display = 'block';
+                    } else {
+                        messageElement.textContent = 'Login bem-sucedido, mas a API não devolveu uma chave de acesso.';
+                        messageElement.style.color = 'orange';
+                    }
+                } else {
+                    const errorMessage = data.message || `Erro na requisição: ${response.status} ${response.statusText}`;
+                    messageElement.textContent = errorMessage;
+                    messageElement.style.color = 'red';
+                }
             } catch (error) {
+                messageElement.textContent = 'Erro de conexão. Verifique sua rede.';
+                messageElement.style.color = 'red';
                 console.error('Erro ao fazer login:', error);
-                alert(`Erro ao fazer login: ${error.message}`);
             }
-        }
+        });
 
+        // Lógica para buscar os veículos
         async function fetchVehicles() {
-            const apiUrl = `https://v2api.frotcom.com/v2/vehicles?api_key=${token}`; // URL para obter dados dos veículos
+            const token = localStorage.getItem('frotcom_api_key');
+            if (!token) {
+                alert('Você não está logado.');
+                window.location.href = 'index.html';
+                return;
+            }
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(`${vehiclesUrl}?api_key=${token}`, {
                     method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
                 });
 
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
                 }
-
                 const data = await response.json();
-                displayVehicles(data);
+                originalVehicleData = data;
+                
+                if (originalVehicleData.length > 0) {
+                    const allColumns = Object.keys(originalVehicleData[0]);
+                    createColumnSelectors(allColumns);
+                    document.querySelector('.column-selector').style.display = 'block';
+                    document.getElementById('showDataButton').style.display = 'block';
+                    document.getElementById('getVehicles').style.display = 'none';
+                }
+
             } catch (error) {
                 console.error('Erro ao buscar dados da API:', error);
                 alert(`Erro ao buscar dados da API: ${error.message}`);
             }
         }
 
-         function displayVehicles(data) {
+        // Nova função para criar as caixas de seleção de colunas
+        function createColumnSelectors(columns) {
+            const container = document.getElementById('columnCheckboxes');
+            container.innerHTML = '';
+            columns.forEach(column => {
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = false; // Por padrão, nenhuma coluna é selecionada
+                checkbox.value = column;
+                label.textContent = column.charAt(0).toUpperCase() + column.slice(1);
+                
+                label.prepend(checkbox);
+                container.appendChild(label);
+            });
+        }
+
+        // Nova função para atualizar a lista de colunas selecionadas e exibir a tabela
+        function showData() {
+            const checkboxes = document.querySelectorAll('#columnCheckboxes input[type="checkbox"]');
+            selectedColumns = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            
+            displayVehicles(originalVehicleData);
+        }
+
+        // Lógica para exibir os dados na tabela
+        function displayVehicles(data) {
             const table = document.getElementById('vehiclesTable');
             const thead = table.querySelector('thead');
             const tbody = table.querySelector('tbody');
-            tbody.innerHTML = ''; // Limpar quaisquer dados anteriores
-            thead.innerHTML = ''; // Limpar cabeçalhos anteriores
-
-            if (data.length > 0) {
-                // Gerar cabeçalhos dinamicamente
-                const headers = Object.keys(data[0]);
+            tbody.innerHTML = '';
+            thead.innerHTML = '';
+            
+            if (data && data.length > 0 && selectedColumns.length > 0) {
                 const headerRow = document.createElement('tr');
-                headers.forEach(header => {
+                selectedColumns.forEach(header => {
                     const th = document.createElement('th');
                     th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
+                    th.addEventListener('click', () => {
+                        sortTable(data, header);
+                    });
                     headerRow.appendChild(th);
                 });
                 thead.appendChild(headerRow);
 
-                // Gerar linhas da tabela
                 data.forEach(vehicle => {
                     const row = document.createElement('tr');
-                    headers.forEach(header => {
+                    selectedColumns.forEach(header => {
                         const td = document.createElement('td');
-                        td.textContent = vehicle[header];
+                        let cellText = vehicle[header];
+
+                        if (header === 'Terminals' && vehicle[header] && vehicle[header].length > 0) {
+                            cellText = vehicle[header][0].Id;
+                        } else if (typeof vehicle[header] === 'object' && vehicle[header] !== null) {
+                            cellText = JSON.stringify(vehicle[header]);
+                        }
+
+                        td.textContent = cellText;
                         row.appendChild(td);
                     });
                     tbody.appendChild(row);
                 });
-
-                table.style.display = 'table'; // Exibir a tabela
+                table.style.display = 'table';
             } else {
-                alert('Nenhum dado encontrado.');
+                alert('Nenhum dado de veículo encontrado ou nenhuma coluna selecionada.');
             }
         }
 
-        function sortTable(column) {
-            const table = document.getElementById('vehiclesTable');
-            const ths = table.querySelectorAll('th');
-            let direction = 'asc';
-            ths.forEach(th => {
-                if (th.textContent.toLowerCase() === column.toLowerCase()) {
-                    if (th.classList.contains('sorted-asc')) {
-                        direction = 'desc';
-                        th.classList.remove('sorted-asc');
-                        th.classList.add('sorted-desc');
-                    } else {
-                        th.classList.remove('sorted-desc');
-                        th.classList.add('sorted-asc');
-                    }
+        // Lógica para ordenar a tabela
+        function sortTable(data, column) {
+            if (currentSortColumn === column) {
+                isAscending = !isAscending;
+            } else {
+                currentSortColumn = column;
+                isAscending = true;
+            }
+
+            data.sort((a, b) => {
+                const valueA = a[column];
+                const valueB = b[column];
+
+                if (!isNaN(valueA) && !isNaN(valueB)) {
+                    return isAscending ? valueA - valueB : valueB - valueA;
                 } else {
-                    th.classList.remove('sorted-asc');
-                    th.classList.remove('sorted-desc');
+                    return isAscending ? String(valueA).localeCompare(String(valueB)) : String(valueB).localeCompare(String(valueA));
                 }
             });
-
-            vehicleData.sort((a, b) => {
-                if (a[column] < b[column]) {
-                    return direction === 'asc' ? -1 : 1;
-                }
-                if (a[column] > b[column]) {
-                    return direction === 'asc' ? 1 : -1;
-                }
-                return 0;
-            });
-
-            displayVehicles(vehicleData);
+            displayVehicles(data);
         }
 
-        document.getElementById('loginForm').addEventListener('submit', login);
         document.getElementById('getVehicles').addEventListener('click', fetchVehicles);
+        document.getElementById('showDataButton').addEventListener('click', showData);
     </script>
 </body>
 </html>

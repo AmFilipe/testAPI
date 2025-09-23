@@ -1,168 +1,171 @@
-/* Menu */
-.line a {
-    padding: 20px;
-    color: #f7f7f7; 
-    font-weight: 900;
-    -webkit-transition: color 0.3s, background-color 0.3s;
-    -moz-transition: color 0.3s, background-color 0.3s;
-    transition: color 0.3s, background-color 0.3s;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Sombra de texto mais forte */
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto translúcido */
-    border-radius: 5px; /* Bordas arredondadas */
-    display: inline-block; /* Exibe os links em linha */
+/* Paleta de Cores:
+   - Azul Escuro: #2c3e50 (para cabeçalhos, texto principal)
+   - Azul Claro: #3498db (para botões, links)
+   - Cinza Claro: #ecf0f1 (para fundos de seções)
+   - Branco: #ffffff (para texto sobre fundos escuros)
+   - Cinza Mais Escuro: #7f8c8d (para textos secundários)
+*/
+
+/* Estilos Gerais da Página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
 }
 
-    .line a::before,
-    .line a::after {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: #fff;
-    content: '';
-    opacity: 0;
-    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
-    -moz-transition: opacity 0.3s, -moz-transform 0.3s;
-    transition: opacity 0.3s, transform 0.3s;
-    -webkit-transform: translateY(-10px);
-    -moz-transform: translateY(-10px);
-    transform: translateY(-10px);
-    }
-    
-    .line a::before {
-    top: 0;
-    -webkit-transform: translateY(-10px);
-    -moz-transform: translateY(-10px);
-    transform: translateY(-10px);
-    }
-    
-    .line a::after {
-    bottom: 0;
-    -webkit-transform: translateY(10px);
-    -moz-transform: translateY(10px);
-    transform: translateY(10px);
-    }
-    
-    .line a:hover,
-    .line a:focus {
-    color: #fff;
-    }
-    
-    .line a:hover::before,
-    .line a:focus::before,
-    .line a:hover::after,
-    .line a:focus::after {
-    opacity: 1;
-    -webkit-transform: translateY(0px);
-    -moz-transform: translateY(0px);
-    transform: translateY(0px);
-    }
-    
-      
-header {
-    background-color: red;
-    height: 80px;
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1, h2 {
+    color: #2c3e50;
     text-align: center;
-    padding: 20px 0; /* Add some padding for better spacing */
+    margin-bottom: 1.5rem;
+}
+
+/* Estilo do Logo Frotcom no cabeçalho */
+.frotcom-logo {
+    display: block;
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+/* Cabeçalho e Menu de Navegação */
+header {
+    background-color: #2c3e50; /* Fundo azul escuro */
+    border-bottom: 2px solid #34495e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 nav.menu {
-    top: 0;
-    width: 100%;
-    float: center;
     text-align: center;
+    padding: 1rem 0;
 }
 
-
-
-/* Estilos do cabeçalho */
-nav ul {
-    list-style: none;
-    padding: 0;
+nav.menu ul {
+    list-style-type: none;
     margin: 0;
+    padding: 0;
 }
 
-nav ul li {
+nav.menu ul li {
     display: inline-block;
-    margin-right: 20px;
+    margin: 0 1rem;
 }
 
-nav ul li:last-child {
-    margin-right: 0;
+/* Estilos dos Links do Menu */
+.menu a {
+    position: relative;
+    padding: 0.75rem 1.2rem;
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 5px;
+    display: inline-block;
 }
 
-
-nav ul li:hover, nav ul li:focus {
-    color: #000;
-    transition: 0.6s;
+.menu a:hover,
+.menu a:focus {
+    color: #3498db;
     outline: none;
 }
 
-nav ul li:hover {
-    color: #ddd;
+/* Efeito de Sublinhado */
+.menu a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #3498db;
+    transition: width 0.3s ease-out, left 0.3s ease-out;
 }
 
-/* Estilos principais */
-main {
+.menu a:hover::before,
+.menu a:focus::before {
+    width: 100%;
+    left: 0;
+}
+
+/* Seções Principais */
+main, section {
+    background-color: #ffffff;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1500px;
+}
+
+/* Estilo do Formulário */
+form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Garante que o conteúdo fique no topo */
-    text-align: center;
-    font-size: 2em;
-    padding: 50px;
-    /*height: 100vh; /* Usa a altura total da viewport */
-    background-color: lightgrey;
-    background-image: url('FROTCOM-Logo-RGB-White.png');
-    background-repeat: no-repeat; /* Impede a repetição da imagem */
-    background-position: center; /* Centraliza a imagem no centro do contêiner */
-    background-size: contain; /* Ajusta a largura para 300px e a altura para 200px */
-        
-}
-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Garante que o conteúdo fique no topo */
-    text-align: center;
-    font-size: 2em;
-    padding: 50px;
-    /*height: 100vh; /* Usa a altura total da viewport */
-    background-color: lightgrey;
-    /*background-image: url('FROTCOM-Logo-RGB-White.png');
-    background-repeat: no-repeat; /* Impede a repetição da imagem */
-    /*background-position: center; /* Centraliza a imagem no centro do contêiner */
-   /* background-size: contain; /* Ajusta a largura para 300px e a altura para 200px */
-        
 }
 
-
-
-/* Estilos da lista de definição */
-dl {
-    margin: 20px 0;
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    max-width: 350px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
-dt {
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
     font-weight: bold;
-    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-dd {
-    margin: 0 0 10px 20px;
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
 }
 
-/* Estilos da lista ordenada */
-ol {
-    margin: 20px 0;
-    padding-left: 20px;
+/* Mensagem de Status */
+#message {
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
 }
 
-a {
-    color: #4CAF50;
-    text-decoration: none;
+/* Estilo para o filtro */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
 }
 
-a:hover {
-    text-decoration: underline;
+.filter-container input {
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
